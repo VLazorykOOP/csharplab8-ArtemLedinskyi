@@ -44,6 +44,11 @@ class Program
                     double num = double.Parse(Console.ReadLine());
                     Task4.task(outputFilePathforTask4,len,num);
                     break;
+
+                case 5:
+                    Task5 task5 = new Task5();
+                    task5.ProcessTask("Ledinskyi");
+                    break;
             }
     }
 }
