@@ -41,8 +41,12 @@ class Program
                     Console.WriteLine("Введiть довжину");
                     int len = int.Parse(Console.ReadLine());
                     Console.WriteLine("Введiть число");
-                    double num = double.Parse(Console.ReadLine());
-                    Task4.task(outputFilePathforTask4,len,num);
+                    double num;
+                    while (!double.TryParse(Console.ReadLine(), out num))
+                    {
+                        Console.WriteLine("Некоректне число. Спробуйте ще раз.");
+                    }
+                    Task4.task(outputFilePathforTask4, len, num);
                     break;
 
                 case 5:

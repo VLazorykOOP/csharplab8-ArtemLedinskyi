@@ -1,42 +1,41 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 
 
 namespace Lab8CSharp
 {
     internal class Task2
     {
-        static public void task(string inputPath,string outputPath)
+        static public void task(string inputFileName, string outputFileName)
         {
-            using (StreamReader reader = new StreamReader(inputPath))
-            using (StreamWriter writer = new StreamWriter(outputPath))
+            // Використання блоку using для автоматичного звільнення ресурсів
+            using (StreamReader reader = new StreamReader(inputFileName))
+            using (StreamWriter writer = new StreamWriter(outputFileName))
             {
-                string line = reader.ReadLine();
-                while ((line=reader.ReadLine())!=null)
+                // Читання тексту з вхідного файлу
+                string text = reader.ReadToEnd();
+
+                // Регулярний вираз для знаходження послідовності букв в алфавітному порядку
+                string pattern = @"([a-z])(?:([a-z])(?!\1))+";
+
+                // Заміна за допомогою регулярного виразу та запис результату у вихідний файл
+                writer.Write(Regex.Replace(text, pattern, m =>
                 {
-                    StringBuilder sb = new StringBuilder();
-                    char prevChar = '\0';
-                    foreach (char c in line)
+                    string matched = m.Value;
+                    if (matched.Length > 2)
                     {
-                        if (char.IsLetter(c))
-                        {
-                            if(prevChar == '\0' || c - prevChar != 1)
-                            {
-                                sb.Append(c);
-                            }else if (sb.Length > 0 && sb[sb.Length-1]!='-') { 
-                            sb.Append("-");
-                            }
-                            else
-                            {
-                                sb.Append(c);
-                            }
-                            prevChar = c;
-                        }
-                        writer.WriteLine(sb.ToString());
+                        // Скорочений запис послідовності
+                        return $"{matched[0]}-{matched[matched.Length - 1]}";
                     }
-                }
+                    else
+                    {
+                        // Повернення без змін, якщо послідовність не виправляється
+                        return matched;
+                    }
+                }));
             }
         }
-    }
+        }
 }

@@ -17,8 +17,8 @@ namespace Lab8CSharp
                 string line;
                 while ((line = reader.ReadLine()) != null)
                 {
-                    
-                    string[] words = Regex.Split(line, @"\W+");
+
+                    string[] words = Regex.Split(line, @"[^\w.,]+");
 
                     foreach (string word in words)
                     {
@@ -44,10 +44,10 @@ namespace Lab8CSharp
                             sb.Append(" ");
                         }
                     }
-                using(StreamWriter writer = new StreamWriter(outputFilePath)) 
-                {
-                sb.Append(sb.ToString().Trim());
-                }
+            using (StreamWriter writer = new StreamWriter(outputFilePath))
+            {
+                writer.WriteLine(sb.ToString().Trim());
+            }
         }
 
     }

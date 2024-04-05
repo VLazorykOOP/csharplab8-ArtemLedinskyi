@@ -5,40 +5,43 @@ namespace Lab8CSharp
 {
     internal class Task4
     {
-        static public void task(string outputFilePath,int len,double num)
+        static public void task(string outputFilePath, int len, double num)
         {
-
-            double[] numbers = new double [len];
-            for(int i = 0; i < len; i++)
+            double[] numbers = new double[len];
+            for (int i = 0; i < len; i++)
             {
-                Console.WriteLine("Введiть число: ");
-                numbers[i]= double.Parse(Console.ReadLine());
-            }
-            Console.WriteLine("Назва файлу(розширення .dat)");
-            string fileName = Console.ReadLine();
-            using(BinaryWriter br = new BinaryWriter(File.Open(fileName,FileMode.Create)))
-            { 
-                foreach(double number in numbers)
+                double input;
+                Console.WriteLine($"Введiть число {i + 1}: ");
+                while (!double.TryParse(Console.ReadLine(), out input))
                 {
-                    br.Write(number);
+                    Console.WriteLine("Введено некоректне значення. Спробуйте ще раз.");
+                }
+                numbers[i] = input;
+            }
+
+            string fileName = outputFilePath;
+
+            using (BinaryWriter writer = new BinaryWriter(File.Open(fileName, FileMode.Create)))
+            {
+                foreach (double number in numbers)
+                {
+                    writer.Write(number);
                 }
             }
-
-            using (BinaryReader br = new BinaryReader(File.Open(outputFilePath, FileMode.Open)))
+            Console.WriteLine();
+            using (BinaryReader reader = new BinaryReader(File.Open(fileName, FileMode.Open)))
             {
-                int index =0;
-                while(br.BaseStream.Position < br.BaseStream.Length)
+                int index = 1; // Починаємо з 1, оскільки індекси в C# починаються з 0
+                while (reader.BaseStream.Position < reader.BaseStream.Length)
                 {
-                    double number = br.ReadDouble();
-                    if(index %2==0 &&  number < num)
+                    double number = reader.ReadDouble();
+                    if (index % 2 == 0 && number < num) // Перевіряємо непарні індекси
                     {
-                        Console.WriteLine($"{index}: {number}");
+                        Console.WriteLine($"{number}");
                     }
                     index++;
                 }
             }
-
         }
-
     }
 }

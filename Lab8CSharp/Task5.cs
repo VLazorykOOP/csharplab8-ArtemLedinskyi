@@ -18,6 +18,10 @@ namespace Lab8CSharp
             string text1 = "<Шевченко Степан Іванович, 2001> року народження, місце проживання <м. Суми>";
             string text2 = "<Комар Сергій Федорович, 2000> року народження, місце проживання <м. Київ>";
 
+            // Заміна кутових дужок на лапки
+            text1 = text1.Replace("<", "\"").Replace(">", "\"");
+            text2 = text2.Replace("<", "\"").Replace(">", "\"");
+
             File.WriteAllText(Path.Combine(folder1Path, "t1.txt"), text1);
             File.WriteAllText(Path.Combine(folder1Path, "t2.txt"), text2);
 
